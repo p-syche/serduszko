@@ -5,70 +5,39 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  interpolate,
-  Extrapolate,
-  useDerivedValue,
-  interpolateColor,
+  withSequence,
 } from 'react-native-reanimated';
 
 import ReanimatedHeart from './ReanimatedHeart';
 
 const ReanimatedHeartWrapper: () => Node = () => {
   const [liked, setIsLiked] = useState(false);
-  const animatedScale = useSharedValue(0);
+  const animatedScale = useSharedValue(1);
 
-  // const style = useAnimatedStyle(() => {
-  //   return {
-  //     transform: [
-  //       {
-  //         scale: withSpring(
-  //           animatedScale.value,
-  //           {
-  //             damping: 3,
-  //             stiffness: 80,
-  //           },
-  //           () => {
-  //             return (animatedScale.value = 1);
-  //           },
-  //         ),
-  //       },
-  //     ],
-  //   };
-  // });
-
-  const rotateStyle = useAnimatedStyle(() => {
-    const rotate = interpolate(
-      animatedScale.value,
-      [0, 2],
-      [1, 0.8],
-      Extrapolate.CLAMP,
-    );
-
+  const style = useAnimatedStyle(() => {
     return {
-      transform: [{scale: rotate}],
+      transform: [
+        {
+          scale: animatedScale.value,
+        },
+      ],
     };
   });
 
-  // const backgroundStyle = useAnimatedStyle(() => {
-  //   const backgroundColor = interpolateColor(
-  //     translateX.value,
-  //     [0, SLIDER_RANGE],
-  //     ['rgb(129,212,250)', 'rgb(3,169,244)'],
-  //   );
-
-  //   return {
-  //     backgroundColor,
-  //   };
-  // });
-
   const triggerLike = () => {
     setIsLiked(!liked);
-    animatedScale.value = 2;
+    const springOptions = {
+      damping: 8,
+    };
+    animatedScale.value = withSequence(
+      withSpring(1.2, springOptions),
+      withSpring(1, springOptions),
+    );
   };
 
   return (
     <Pressable onPress={() => triggerLike()}>
-      <Animated.View style={[rotateStyle]}>
+      <Animated.View style={style}>
         <ReanimatedHeart filled={liked} />
       </Animated.View>
     </Pressable>

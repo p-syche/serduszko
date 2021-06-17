@@ -3,6 +3,7 @@ import type {Node} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 
 import HeartWrapper from './HeartWrapper';
+import ReanimatedHeartWrapper from './ReanimatedHeartWrapper';
 
 const App: () => Node = () => {
   return (
@@ -10,6 +11,7 @@ const App: () => Node = () => {
       <View style={styles.container}>
         <View>
           <HeartWrapper />
+          <ReanimatedHeartWrapper />
         </View>
       </View>
     </SafeAreaView>

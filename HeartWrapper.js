@@ -7,16 +7,12 @@ import ReanimatedHeart from './ReanimatedHeart';
 
 const HeartWrapper: () => Node = () => {
   const [liked, setIsLiked] = useState(false);
-
-  const [scale, setScale] = useState(new Animated.Value(0));
+  const [scale, setScale] = useState(new Animated.Value(1));
 
   const bouncyHeart = scale.interpolate({
     inputRange: [0, 1, 2],
     outputRange: [1, 0.8, 1],
   });
-  const heartButtonStyle = {
-    transform: [{scale: bouncyHeart}],
-  };
 
   const triggerLike = () => {
     setIsLiked(!liked);
